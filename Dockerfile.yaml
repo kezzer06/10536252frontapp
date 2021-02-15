@@ -1,10 +1,10 @@
 ### Stage 1: Build ###
 FROM node: 12.7-alpine AS Build
-WORKDIR /user/src/app
+WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run Build
+RUN npm run build
 
 ## STAGE 2: Run ###
 FROM nginx:1.17.1-alpine
