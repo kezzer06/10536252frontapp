@@ -41,7 +41,7 @@ metadata:
   labels:
     service-label: application-frontend-cluster-service
   name: application-frontend-cluster-service-loadbalancer
- spec: 
+spec: 
   type: LoadBalancer
   ports:
   - name: application-frontend-load-balancer-service-port
