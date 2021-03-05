@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: application-frontend-container
-        image: 10536252container.azurecr.io/application-frontend:v1
+        image: kezzer06/application-frontend:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 80
