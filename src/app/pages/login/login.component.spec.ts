@@ -31,6 +31,48 @@ describe('LoginComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    $('.username').text("ehtisham");
+    $('.username').text("Kerry");
   });
+
+  it('should contain a login form', ()=>{
+    expect($(fixture.nativeElement).find('form[name=loginForm]').length).toBe(1);
+  });
+
+  it('should contain the username field', ()=>{
+    expect($(fixture.nativeElement).find('input#username').length).toBe(1);
+  });
+
+  it('should contain the password field', ()=>{
+    expect($(fixture.nativeElement).find('input#password').length).toBe(1);
+  });
+
+  it("should have login form validations", ()=>{
+    expect($(fixture.nativeElement).find('input#username').val()).toEqual("");
+    expect($(fixture.nativeElement).find('input#password').val()).toEqual("");
+    $(fixture.nativeElement).find('.login').trigger('click');
+    expect($(fixture.nativeElement).find('.username-error-message').hasClass('dNone')).toBe(false);
+    expect($(fixture.nativeElement).find('.username-error-message').text()).toEqual("Username cannot be empty");
+    $(fixture.nativeElement).find('input#username').val("Kerry");
+    $(fixture.nativeElement).find('.login').trigger('click');
+    expect($(fixture.nativeElement).find('.username-error-message').hasClass('dNone')).toBe(false);
+    expect($(fixture.nativeElement).find('.username-error-message').text()).toEqual("Username should have a valid email address");
+    $(fixture.nativeElement).find('input#username').val("10536252@mydbs.ie");
+    $(fixture.nativeElement).find('.login').trigger('click');
+    expect($(fixture.nativeElement).find('.username-error-message').hasClass('dNone')).toBe(true);
+
+  });
+  it("should have login form validations for password", ()=>{
+
+    expect($(fixture.nativeElement).find('.password-error-message').hasClass('dNone')).toBe(false);
+    expect($(fixture.nativeElement).find('.password-error-message').text()).toEqual("Password cannot be empty");
+  });
+
+  it("login form should allow user to register", ()=>{
+    expect($(fixture.nativeElement).find('input#username').val()).toEqual("");
+    expect($(fixture.nativeElement).find('input#password').val()).toEqual("");
+    $(fixture.nativeElement).find('.registerLink').trigger('click');
+    expect($(fixture.nativeElement).find('.registerLink-error-message').hasClass('dNone')).toBe(true);
+
+  });
+
 });

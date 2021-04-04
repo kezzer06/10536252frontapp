@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 10536252-ca-frontend
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      deployment-name: 10536252-ca-frontend
+  template:
+    metadata:
+      labels:
+        deployment-name: 10536252-ca-frontend
+    spec:
+      containers:
+      - name: ca-frontend-container
+        image: 10536252/ca-frontend:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+   service-label: ca-frontend-cluster-service
+  name: ca-frontend-cluster-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: ca-frontend-service-port
+    port: 80
+    protocol: TCP
+  selector:
+    deployment-name: 10536252-ca-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: ca-frontend-cluster-service
+  name: application-frontend-cluster-service-loadbalancer
+spec: 
+  type: LoadBalancer
+  ports:
+  - name: ca-frontend-load-balancer-service-port
+    port: 80
+    protocol: TCP
+  selector:
+    deployment-name: 10536252-ca-frontend
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ca-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: 10536252-ca-frontend
+  minReplicas: 1
+  maxReplicas: 10
+ metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: 100Mi

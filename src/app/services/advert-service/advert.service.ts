@@ -25,5 +25,8 @@ export class AdvertService {
     this.api.serverCall("POST", "/api/createAd", {title: title, description: description, featuredImage: featuredImage, author: author, lastUpdated: date, dateCreated: date }, (data: any)=>{
       callback(data);
     });
-  }
+
+
+ }
 }
+
